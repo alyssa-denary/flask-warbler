@@ -45,8 +45,52 @@ class UserRoutesTestCase(TestCase):
 
         db.session.rollback()
 
+    ########################################################################
+    # do login/logout function tests
+
+    # test do login yes
+
+    # test do login no
+
+    # test do logout yes
+
+    ########################################################################
+    # Signup route tests
+
+    # visit signup & signup with curr user key in session
+
+    # signup no curr user key in session
+
+    # form validates with valid data, logs user in, redirects to /
+
+    # form validates with invalid data (username or email not unique),
+    #   renders data typed with error message
+
+    # form doesn't validate, renders signup template
+
+    ########################################################################
+    # Login route tests
+
+    # form validates and authenticates
+
+    # form validates, does not authenticate
+
+    # form does not validate
+
+    ########################################################################
+    # Logout route tests
+
+    # g.user in session, form validates, logs out, redirects to login
+
+    # form validates but user not in session
+
+    # form does not validate, flash unauth, redirect to homepage /
+
+    ########################################################################
+    # /users route tests
+
     def test_list_users(self):
-        """Test page listing all users"""
+        """Test /users page that lists all users"""
 
         with app.test_client() as client:
             with client.session_transaction() as sess:
