@@ -1,30 +1,16 @@
 """Message model tests."""
 
-# run these tests like:
-#
-#    python -m unittest test_user_model.py
-
-
 import os
 from unittest import TestCase
 from sqlalchemy.exc import IntegrityError
-from models import db, User, Message, Follows, Like
+from models import db, User, Message, Like
 
-# BEFORE we import our app, let's set an environmental variable
-# to use a different database for tests (we need to do this
-# before we import our app, since that will have already
-# connected to the database
-
+# Environmental variable for URL
 os.environ['DATABASE_URL'] = "postgresql:///warbler_test"
-
-# Now we can import app
 
 from app import app
 
-# Create our tables (we do this here, so we only create the tables
-# once for all tests --- in each test, we'll delete the data
-# and create fresh new clean test data
-
+# Create tables: once for all tests
 db.drop_all()
 db.create_all()
 
@@ -33,16 +19,26 @@ class MessageModelTestCase(TestCase):
     def setUp(self):
         User.query.delete()
 
-        u1 = User.signup("u1", "u1@email.com", "password", None)
-        u2 = User.signup("u2", "u2@email.com", "password", None)
+        u1 = User.signup(
+            username="u1",
+            email="u1@email.com",
+            password="password",
+            image_url=None
+        )
 
+        u2 = User.signup(
+            username="u2",
+            email="u2@email.com",
+            password="password",
+            image_url=None
+        )
+
+        m1 = Message(text="Sample Text")
+        u1.messages.append(m1)
         db.session.commit()
+
         self.u1_id = u1.id
         self.u2_id = u2.id
-
-        msg = Message(text="Sample Text", user_id=self.u1_id)
-        db.session.add(msg)
-        db.session.commit()
 
         like = Like(user_id=self.u2_id, message_id=msg.id)
         db.session.add(like)
@@ -56,8 +52,11 @@ class MessageModelTestCase(TestCase):
     def tearDown(self):
         db.session.rollback()
 
-##############################################################################
-# Test message and author relationship
+    ########################################################################
+    # Test message model
+
+    ########################################################################
+    # Test message and author relationship
 
     def test_message_author_valid(self):
         """Test that message has only the expected author"""
@@ -77,8 +76,8 @@ class MessageModelTestCase(TestCase):
             db.session.commit()
 
 
-##############################################################################
-# Test message and users_who_liked relationship
+    ########################################################################
+    # Test message and users_who_liked relationship
 
     def test_message_users_who_liked_valid(self):
         """Test that a message has expected list of users who like"""
