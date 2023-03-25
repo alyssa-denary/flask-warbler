@@ -22,6 +22,8 @@ db.create_all()
 
 class UserModelTestCase(TestCase):
     def setUp(self):
+        """Create demo data"""
+
         User.query.delete()
 
         hashed_password = (bcrypt
@@ -52,17 +54,26 @@ class UserModelTestCase(TestCase):
         self.client = app.test_client()
 
     def tearDown(self):
+        """Clean up fouled transactions"""
+
         db.session.rollback()
 
     ########################################################################
     # User model tests
 
     def test_user_model(self):
-        u1 = User.query.get(self.u1_id)
+        """Test user model with demo data"""
 
-        # User should have no messages & no followers
+        u1 = User.query.get(self.u1_id)
+        u2 = User.query.get(self.u2_id)
+
+        # User should have no messages, no followers, no following
         self.assertEqual(len(u1.authored_messages), 0)
+        self.assertEqual(len(u2.authored_messages), 0)
         self.assertEqual(len(u1.followers), 0)
+        self.assertEqual(len(u2.followers), 0)
+        self.assertEqual(len(u1.following), 0)
+        self.assertEqual(len(u2.following), 0)
 
     ########################################################################
     # is_following tests
