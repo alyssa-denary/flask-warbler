@@ -70,6 +70,24 @@ class MessageModelTestCase(TestCase):
         self.assertEqual(u1.authored_messages[0].text, "Sample text")
         self.assertEqual(len(u2.authored_messages), 0)
 
+    def test_message_model_invalid_message(self):
+        """Test message without text fails to create message"""
+
+        with self.assertRaises(ValueError):
+            msg = Message(text="", user_id=self.u1_id)
+
+            db.session.add(msg)
+            db.session.commit()
+
+    def test_message_model_invalid_author(self):
+        """Test author who does not exist fails to create message"""
+
+        with self.assertRaises(IntegrityError):
+            msg = Message(text="Sample Text", user_id=1000)
+
+            db.session.add(msg)
+            db.session.commit()
+
     ########################################################################
     # authored_messages/author tests
 
@@ -81,18 +99,6 @@ class MessageModelTestCase(TestCase):
 
         self.assertEqual(m1.author, u1)
         self.assertEqual(u1.authored_messages, [m1])
-
-
-    # def test_message_author_invalid(self):
-    #     """Test invalid author who does not exist fails to create message"""
-
-    #     with self.assertRaises(IntegrityError):
-    #         #create new message instance with user id that doesnt exist
-    #         msg = Message(text="Sample Text", user_id=1000)
-
-    #         db.session.add(msg)
-    #         db.session.commit()
-
 
     # ########################################################################
     # # Test message and users_who_liked relationship
