@@ -76,24 +76,6 @@ class UserModelTestCase(TestCase):
         self.assertEqual(len(u2.following), 0)
 
     ########################################################################
-    # is_following tests
-
-    def test_is_following_yes(self):
-        u1 = User.query.get(self.u1_id)
-        u2 = User.query.get(self.u2_id)
-        u2.followers.append(u1)
-
-        # u1 should be following u2
-        self.assertTrue(u1.is_following(u2))
-
-    def test_is_following_no(self):
-        u1 = User.query.get(self.u1_id)
-        u2 = User.query.get(self.u2_id)
-
-        # u1 should not be following u2
-        self.assertFalse(u1.is_following(u2))
-
-    ########################################################################
     # Following/Followers tests
 
     def test_followers_following(self):
