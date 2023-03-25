@@ -54,6 +54,9 @@ class UserModelTestCase(TestCase):
     def tearDown(self):
         db.session.rollback()
 
+    ########################################################################
+    # User model tests
+
     def test_user_model(self):
         u1 = User.query.get(self.u1_id)
 
