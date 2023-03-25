@@ -33,7 +33,7 @@ class MessageModelTestCase(TestCase):
             image_url=None
         )
 
-        m1 = Message(text="Sample Text")
+        m1 = Message(text="Sample text")
         u1.messages.append(m1)
         db.session.commit()
 
@@ -54,6 +54,16 @@ class MessageModelTestCase(TestCase):
 
     ########################################################################
     # Test message model
+
+    def test_message_model(self):
+        """Test message model with demo data"""
+        u1 = User.query.get(self.u1_id)
+        u2 = User.query.get(self.u2_id)
+
+        # u1 should have 1 message
+        self.assertEqual(len(u1.messages), 1)
+        self.assertEqual(u1.messages[0].text, "Sample text")
+        self.assertEqual(len(u2.messages), 0)
 
     ########################################################################
     # Test message and author relationship
