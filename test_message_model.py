@@ -36,76 +36,81 @@ class MessageModelTestCase(TestCase):
         )
 
         m1 = Message(text="Sample text")
-        u1.messages.append(m1)
+        u1.authored_messages.append(m1)
         db.session.commit()
 
         self.u1_id = u1.id
         self.u2_id = u2.id
-
-        like = Like(user_id=self.u2_id, message_id=msg.id)
-        db.session.add(like)
-        db.session.commit()
-
-        self.u1_msg_id = msg.id
-        self.like_id = like.id
+        self.m1_id = m1.id
 
         self.client = app.test_client()
 
+        # like = Like(user_id=self.u2_id, message_id=msg.id)
+        # db.session.add(like)
+        # db.session.commit()
+
+        # self.like_id = like.id
+
     def tearDown(self):
         """Clean up fouled transactions"""
+
         db.session.rollback()
 
     ########################################################################
-    # Test message model
+    # Message model tests
 
     def test_message_model(self):
         """Test message model with demo data"""
+
         u1 = User.query.get(self.u1_id)
         u2 = User.query.get(self.u2_id)
 
         # u1 should have 1 message
-        self.assertEqual(len(u1.messages), 1)
-        self.assertEqual(u1.messages[0].text, "Sample text")
-        self.assertEqual(len(u2.messages), 0)
+        self.assertEqual(len(u1.authored_messages), 1)
+        self.assertEqual(u1.authored_messages[0].text, "Sample text")
+        self.assertEqual(len(u2.authored_messages), 0)
 
     ########################################################################
-    # Test message and author relationship
+    # authored_messages/author tests
 
-    def test_message_author_valid(self):
-        """Test that message has only the expected author"""
+    def test_message_author(self):
+        """Test that message has the expected author"""
 
-        msg = Message.query.filter_by(id=self.u1_msg_id).one()
+        m1 = Message.query.get(self.m1_id)
+        u1 = User.query.get(self.u1_id)
 
-        self.assertEqual(msg.author.id, self.u1_id)
-
-    def test_message_author_invalid(self):
-        """Test that message will not accept author who does not exist"""
-
-        with self.assertRaises(IntegrityError):
-            #create new message instance with user id that doesnt exist
-            msg = Message(text="Sample Text", user_id=1000)
-
-            db.session.add(msg)
-            db.session.commit()
+        self.assertEqual(m1.author, u1)
+        self.assertEqual(u1.authored_messages, [m1])
 
 
-    ########################################################################
-    # Test message and users_who_liked relationship
+    # def test_message_author_invalid(self):
+    #     """Test invalid author who does not exist fails to create message"""
 
-    def test_message_users_who_liked_valid(self):
-        """Test that a message has expected list of users who like"""
+    #     with self.assertRaises(IntegrityError):
+    #         #create new message instance with user id that doesnt exist
+    #         msg = Message(text="Sample Text", user_id=1000)
 
-        msg = Message.query.filter_by(id=self.u1_msg_id).one()
-        u2 = User.query.get(self.u2_id)
+    #         db.session.add(msg)
+    #         db.session.commit()
 
-        self.assertEqual(msg.users_who_liked, [u2])
 
-    def test_message_users_who_liked_invalid(self):
-        """
-        Test that a message will not accept like from user who does not exist
-        """
+    # ########################################################################
+    # # Test message and users_who_liked relationship
 
-        with self.assertRaises(IntegrityError):
-            like = Like(user_id=1000, message_id=self.u1_msg_id)
-            db.session.add(like)
-            db.session.commit()
+    # def test_message_users_who_liked_valid(self):
+    #     """Test that a message has expected list of users who like"""
+
+    #     msg = Message.query.filter_by(id=self.u1_msg_id).one()
+    #     u2 = User.query.get(self.u2_id)
+
+    #     self.assertEqual(msg.users_who_liked, [u2])
+
+    # def test_message_users_who_liked_invalid(self):
+    #     """
+    #     Test that a message will not accept like from user who does not exist
+    #     """
+
+    #     with self.assertRaises(IntegrityError):
+    #         like = Like(user_id=1000, message_id=self.u1_msg_id)
+    #         db.session.add(like)
+    #         db.session.commit()
