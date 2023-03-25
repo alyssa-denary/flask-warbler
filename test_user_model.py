@@ -119,8 +119,8 @@ class UserModelTestCase(TestCase):
 
     def test_user_signup_valid(self):
         new_user = User.signup(
-            username="test_user",
-            email="test_user@email.com",
+            username="new_user",
+            email="new_user@email.com",
             password="password",
             image_url=None
         )
@@ -129,8 +129,8 @@ class UserModelTestCase(TestCase):
 
         new_user = User.query.get(new_user.id)
 
-        self.assertEqual(new_user.username, "test_user")
-        self.assertEqual(new_user.email, "test_user@email.com")
+        self.assertEqual(new_user.username, "new_user")
+        self.assertEqual(new_user.email, "new_user@email.com")
         self.assertNotEqual(new_user.password, "password")
         # Bcrypt strings should start with $2b$
         self.assertTrue(new_user.password.startswith("$2b$"))
@@ -141,13 +141,13 @@ class UserModelTestCase(TestCase):
         with self.assertRaises(IntegrityError):
             User.signup(
                 username="u1",
-                email="test_user@mail.com",
+                email="u3@mail.com",
                 password="password",
                 image_url=None
             )
             db.session.commit()
 
-    def test_user_signup_fail_same_email(self):
+    def test_user_signup_invalid_same_email(self):
         """Test trying to create user with existing email"""
 
         with self.assertRaises(IntegrityError):
