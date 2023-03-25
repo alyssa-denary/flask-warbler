@@ -177,22 +177,21 @@ class UserModelTestCase(TestCase):
     def test_user_authenticate_valid(self):
         """Test successful return of user with correct username and password"""
 
-        u1 = User.query.filter_by(id=self.u1_id).one()
+        u1_db = User.query.get(self.u1_id)
+        u1_authenticate = User.authenticate(username="u1", password="password")
 
-        self.assertEqual(
-            u1,
-            User.authenticate(
-                username="u1",
-                password="password"
-            )
-        )
+        self.assertEqual(u1_db, u1_authenticate)
 
     def test_user_authenticate_invalid_username(self):
         """Test that invalid username fails to authenticate"""
 
-        self.assertFalse(User.authenticate(username="baduser", password="password"))
+        self.assertFalse(
+            User.authenticate(username="baduser", password="password")
+        )
 
     def test_user_authenticate_invalid_password(self):
         """Test that invalid password fails to authenticate"""
 
-        self.assertFalse(User.authenticate(username="u1", password="badpassword"))
+        self.assertFalse(
+            User.authenticate(username="u1", password="badpassword")
+        )
