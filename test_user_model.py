@@ -94,21 +94,25 @@ class UserModelTestCase(TestCase):
         self.assertEqual(u2.followers, [])
         self.assertEqual(u2.following, [u1])
 
-    def test_is_followed_by_yes(self):
+    def test_is_followed_by(self):
         u1 = User.query.get(self.u1_id)
         u2 = User.query.get(self.u2_id)
+
         u1.followers.append(u2)
+        db.session.commit()
 
-        # u1 should be followed by u2
         self.assertTrue(u1.is_followed_by(u2))
-
-    def test_is_followed_by_no(self):
-        u1 = User.query.get(self.u1_id)
-        u2 = User.query.get(self.u2_id)
-
-        # u1 should not be followed by u2
         self.assertFalse(u1.is_following(u2))
 
+    def test_is_following(self):
+        u1 = User.query.get(self.u1_id)
+        u2 = User.query.get(self.u2_id)
+
+        u1.followers.append(u2)
+        db.session.commit()
+
+        self.assertTrue(u2.is_following(u1))
+        self.assertFalse(u1.is_following(u2))
 
     ########################################################################
     # User.signup tests
