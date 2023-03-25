@@ -79,6 +79,8 @@ class UserModelTestCase(TestCase):
     # Following/Followers tests
 
     def test_followers_following(self):
+        """Test followers and following through relationship"""
+
         u1 = User.query.get(self.u1_id)
         u2 = User.query.get(self.u2_id)
 
@@ -91,6 +93,8 @@ class UserModelTestCase(TestCase):
         self.assertEqual(u2.following, [u1])
 
     def test_is_followed_by(self):
+        """Test is_followed_by method true & false cases"""
+
         u1 = User.query.get(self.u1_id)
         u2 = User.query.get(self.u2_id)
 
@@ -101,6 +105,7 @@ class UserModelTestCase(TestCase):
         self.assertFalse(u1.is_following(u2))
 
     def test_is_following(self):
+        """Test is_following method true & false cases"""
         u1 = User.query.get(self.u1_id)
         u2 = User.query.get(self.u2_id)
 
@@ -114,6 +119,11 @@ class UserModelTestCase(TestCase):
     # User.signup tests
 
     def test_user_signup_valid(self):
+        """
+        Test valid user signup creates instance, stores hashed password, and
+        expected username, email, and password are on instance in db
+        """
+
         new_user = User.signup(
             username="new_user",
             email="new_user@email.com",
@@ -132,7 +142,7 @@ class UserModelTestCase(TestCase):
         self.assertTrue(new_user.password.startswith("$2b$"))
 
     def test_user_signup_invalid_same_username(self):
-        """Test trying to create user with existing username"""
+        """Test invalid signup due to username already existing"""
 
         with self.assertRaises(IntegrityError):
             User.signup(
@@ -144,7 +154,7 @@ class UserModelTestCase(TestCase):
             db.session.commit()
 
     def test_user_signup_invalid_same_email(self):
-        """Test trying to create user with existing email"""
+        """Test invalid signup due to email already existing"""
 
         with self.assertRaises(IntegrityError):
             User.signup(
@@ -156,7 +166,7 @@ class UserModelTestCase(TestCase):
             db.session.commit()
 
     def test_user_signup_invalid_no_pw(self):
-        """Test trying to create user with no password"""
+        """Test invalid signup due to no password"""
 
         with self.assertRaises(ValueError):
             User.signup(
