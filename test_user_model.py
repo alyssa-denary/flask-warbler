@@ -29,21 +29,23 @@ class UserModelTestCase(TestCase):
             .decode('UTF-8')
         )
 
-        u1 = User.signup(
+        u1 = User(
             username="u1",
             email="u1@email.com",
             password=hashed_password,
             image_url=None
         )
 
-        u2 = User.signup(
+        u2 = User(
             username="u2",
             email="u2@email.com",
             password=hashed_password,
             image_url=None
         )
 
+        db.session.add_all([u1, u2])
         db.session.commit()
+
         self.u1_id = u1.id
         self.u2_id = u2.id
 
@@ -59,8 +61,8 @@ class UserModelTestCase(TestCase):
         self.assertEqual(len(u1.authored_messages), 0)
         self.assertEqual(len(u1.followers), 0)
 
-##############################################################################
-# is_following tests
+    ########################################################################
+    # is_following tests
 
     def test_is_following_yes(self):
         u1 = User.query.get(self.u1_id)
@@ -77,9 +79,20 @@ class UserModelTestCase(TestCase):
         # u1 should not be following u2
         self.assertFalse(u1.is_following(u2))
 
+    ########################################################################
+    # Following/Followers tests
 
-##############################################################################
-# is_followed_by tests
+    def test_followers_following(self):
+        u1 = User.query.get(self.u1_id)
+        u2 = User.query.get(self.u2_id)
+
+        u1.followers.append(u2)
+        db.session.commit()
+
+        self.assertEqual(u1.followers, [u2])
+        self.assertEqual(u1.following, [])
+        self.assertEqual(u2.followers, [])
+        self.assertEqual(u2.following, [u1])
 
     def test_is_followed_by_yes(self):
         u1 = User.query.get(self.u1_id)
@@ -97,8 +110,8 @@ class UserModelTestCase(TestCase):
         self.assertFalse(u1.is_following(u2))
 
 
-##############################################################################
-# User.signup tests
+    ########################################################################
+    # User.signup tests
 
     def test_user_signup_ok(self):
         new_user = User.signup(
@@ -111,7 +124,7 @@ class UserModelTestCase(TestCase):
         # new_user should equal user added to db
         self.assertEqual(new_user, User.query.filter_by(username="test_user").one())
 
-    def test_user_signup_fail_same_name(self):
+    def test_user_signup_fail_same_username(self):
         """Test trying to create user with existing username"""
 
         with self.assertRaises(IntegrityError):
@@ -147,28 +160,28 @@ class UserModelTestCase(TestCase):
             )
             db.session.commit()
 
-##############################################################################
-# User.authenticate tests
+    ########################################################################
+    # User.authenticate tests
 
-def test_user_authenticate_valid(self):
-    """Test successful return of user with correct username and password"""
+    def test_user_authenticate_valid(self):
+        """Test successful return of user with correct username and password"""
 
-    u1 = User.query.filter_by(id=self.u1_id).one()
+        u1 = User.query.filter_by(id=self.u1_id).one()
 
-    self.assertEqual(
-        u1,
-        User.authenticate(
-            username="u1",
-            password="password"
+        self.assertEqual(
+            u1,
+            User.authenticate(
+                username="u1",
+                password="password"
+            )
         )
-    )
 
-def test_user_authenticate_invalid_username(self):
-    """Test that invalid username fails to authenticate"""
+    def test_user_authenticate_invalid_username(self):
+        """Test that invalid username fails to authenticate"""
 
-    self.assertFalse(User.authenticate(username="baduser", password="password"))
+        self.assertFalse(User.authenticate(username="baduser", password="password"))
 
-def test_user_authenticate_invalid_password(self):
-    """Test that invalid password fails to authenticate"""
+    def test_user_authenticate_invalid_password(self):
+        """Test that invalid password fails to authenticate"""
 
-    self.assertFalse(User.authenticate(username="u1", password="badpassword"))
+        self.assertFalse(User.authenticate(username="u1", password="badpassword"))
