@@ -159,7 +159,7 @@ class UserModelTestCase(TestCase):
             )
             db.session.commit()
 
-    def test_user_signup_fail_no_pw(self):
+    def test_user_signup_invalid_no_pw(self):
         """Test trying to create user with no password"""
 
         with self.assertRaises(ValueError):
