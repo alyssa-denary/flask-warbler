@@ -17,6 +17,8 @@ db.create_all()
 
 class MessageModelTestCase(TestCase):
     def setUp(self):
+        """Create demo data"""
+
         User.query.delete()
 
         u1 = User.signup(
@@ -50,6 +52,7 @@ class MessageModelTestCase(TestCase):
         self.client = app.test_client()
 
     def tearDown(self):
+        """Clean up fouled transactions"""
         db.session.rollback()
 
     ########################################################################
