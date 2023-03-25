@@ -4,6 +4,8 @@ from datetime import datetime
 
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.schema import CheckConstraint
+from sqlalchemy.orm import validates
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -154,6 +156,16 @@ class Message(db.Model):
     """An individual message ("warble")."""
 
     __tablename__ = 'messages'
+
+    __table_args__ = (
+        CheckConstraint('char_length(text) > 0', name='text_min_length'),
+    )
+
+    @validates('text')
+    def validate_some_string(self, key, text) -> str:
+        if len(text) == 0:
+            raise ValueError('some_string too short')
+        return text
 
     id = db.Column(
         db.Integer,
