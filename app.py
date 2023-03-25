@@ -28,10 +28,23 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 connect_db(app)
 
+##############################################################################
+# do login/logout functions
+
+def do_login(user):
+    """Log in user."""
+
+    session[CURR_USER_KEY] = user.id
+
+
+def do_logout():
+    """Log out user."""
+
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
 
 ##############################################################################
-# User signup/login/logout
-
+# User signup/login/logout routes
 
 @app.before_request
 def add_user_to_g():
@@ -51,19 +64,6 @@ def add_crsf_form_to_g():
     g.csrf_form = CSRFProtectForm()
 
 
-def do_login(user):
-    """Log in user."""
-
-    session[CURR_USER_KEY] = user.id
-
-
-def do_logout():
-    """Log out user."""
-
-    if CURR_USER_KEY in session:
-        del session[CURR_USER_KEY]
-
-
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
     """Handle user signup.
@@ -78,6 +78,7 @@ def signup():
 
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
+
     form = UserAddForm()
 
     if form.validate_on_submit():
@@ -91,7 +92,7 @@ def signup():
             db.session.commit()
 
         except IntegrityError:
-            flash("Username already taken", 'danger')
+            flash("Username/Email must be unique", 'danger')
             return render_template('users/signup.html', form=form)
 
         do_login(user)
@@ -111,7 +112,8 @@ def login():
     if form.validate_on_submit():
         user = User.authenticate(
             form.username.data,
-            form.password.data)
+            form.password.data
+        )
 
         if user:
             do_login(user)
@@ -125,7 +127,10 @@ def login():
 
 @app.post('/logout')
 def logout():
-    """Handle logout of user and redirect to login page."""
+    """
+    Handle logout of user and redirect to login page.
+
+    """
 
     if not g.user or not g.csrf_form.validate_on_submit():
         flash("Access unauthorized.", "danger")
@@ -138,7 +143,7 @@ def logout():
 
 
 ##############################################################################
-# General user routes:
+# General /users routes:
 
 @app.get('/users')
 def list_users():
@@ -414,7 +419,8 @@ def homepage():
     """Show homepage:
 
     - anon users: no messages
-    - logged in: 100 most recent messages of current user and followed_users
+    - logged in: 100 most recent messages of current user and the users
+      they follow
     """
 
     if g.user:
