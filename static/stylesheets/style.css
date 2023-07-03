@@ -433,6 +433,15 @@ p.card-bio {
   background: rgba(255, 255, 255, 0.3);
 }
 
+.hidden {
+  visibility: hidden;
+}
+
+.demo-form {
+  display: flex;
+  flex-direction: column;
+}
+
 /* ============================== Signed in Home */
 
 #home-aside > .user-card {
