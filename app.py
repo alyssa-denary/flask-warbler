@@ -61,6 +61,24 @@ def add_crsf_form_to_g():
 
     g.csrf_form = CSRFProtectForm()
 
+@app.route('/demo', methods=["POST"])
+def demo():
+    """Allow easy auto-login to guest account for demo purposes"""
+
+    user = User.authenticate(
+        "guest",
+        "password"
+    )
+
+    if user:
+        do_login(user)
+        flash(f"Hello, {user.username}!", "success")
+        return redirect("/")
+
+    flash("Error with guest account. Please signup/login manually.", 'danger')
+
+    return redirect("/login")
+
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
