@@ -1,4 +1,4 @@
-# Warbler
+# TwitterClone
 
 > This is a full stack social media app where users can view messages, post messages, and  like one another's posts. Users can follow one another, and only view messages from users that they follow.
 
@@ -6,13 +6,13 @@
 <!-- PROJECT LOG -->
 <div align="center">
   <p align="center">
-    <a href="https://github.com/ari-denary/warbler"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/ari-denary/TwitterClone"><strong>Explore the docs »</strong></a>
     <br />
-    <a href="https://github.com/ari-denary/warbler">View Demo</a>
+    <a href="https://github.com/ari-denary/TwitterClone">View Demo</a>
     ·
-    <a href="https://github.com/ari-denary/warbler/issues">Report Bug</a>
+    <a href="https://github.com/ari-denary/TwitterClone/issues">Report Bug</a>
     ·
-    <a href="https://github.com/ari-denary/warbler/issues">Request Feature</a>
+    <a href="https://github.com/ari-denary/TwitterClone/issues">Request Feature</a>
   </p>
 </div>
 
@@ -47,7 +47,7 @@
 
 * [![Flask][Flask.com]][Flask-url]
 
-<p align="right">(<a href="#warbler">back to top</a>)</p>
+<p align="right">(<a href="#TwitterClone">back to top</a>)</p>
 
 
 <!-- GETTING STARTED -->
@@ -78,7 +78,7 @@ pip3 install -r requirements.txt
 python3 -m flask run -p 5000
 ```
 
-<p align="right">(<a href="#warbler">back to top</a>)</p>
+<p align="right">(<a href="#TwitterClone">back to top</a>)</p>
 
 
 
@@ -88,7 +88,7 @@ python3 -m flask run -p 5000
 - Homepage to view all messages from followed users:
 <img src="./static/images/warbler-homepage.png"/>
 
-<p align="right">(<a href="#warbler">back to top</a>)</p>
+<p align="right">(<a href="#TwitterClone">back to top</a>)</p>
 
 ## Tests
 
@@ -103,9 +103,9 @@ FLASK_DEBUG=False python -m unittest test_filename.py
 
 - [ ] Add nav link to see posts from all users
 
-See the [open issues](https://github.com/ari-denary/warbler/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/ari-denary/TwitterClone/issues) for a full list of proposed features (and known issues).
 
-<p align="right">(<a href="#warbler">back to top</a>)</p>
+<p align="right">(<a href="#TwitterClone">back to top</a>)</p>
 
 
 
@@ -123,7 +123,7 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#warbler">back to top</a>)</p>
+<p align="right">(<a href="#TwitterClone">back to top</a>)</p>
 
 
 
@@ -132,7 +132,7 @@ Don't forget to give the project a star! Thanks again!
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-<p align="right">(<a href="#warbler">back to top</a>)</p>
+<p align="right">(<a href="#TwitterClone">back to top</a>)</p>
 
 
 
@@ -142,9 +142,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 Ari Denary - [adenary.dev@gmail.com](mailto:adenary.dev@gmail.com) - [LinkedIn][linkedin-url]
 
 
-Project Link: [https://github.com/ari-denary/warbler](https://github.com/ari-denary/warbler)
+Project Link: [https://github.com/ari-denary/TwitterClone](https://github.com/ari-denary/TwitterClone)
 
-<p align="right">(<a href="#warbler">back to top</a>)</p>
+<p align="right">(<a href="#TwitterClone">back to top</a>)</p>
 
 
 
@@ -153,22 +153,22 @@ Project Link: [https://github.com/ari-denary/warbler](https://github.com/ari-den
 
 * [Co-creator: Terry Li](https://github.com/terrysli)
 
-<p align="right">(<a href="#warbler">back to top</a>)</p>
+<p align="right">(<a href="#TwitterClone">back to top</a>)</p>
 
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/ari-denary/warbler.svg?style=for-the-badge
-[contributors-url]: https://github.com/ari-denary/warbler/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/ari-denary/warbler.svg?style=for-the-badge
-[forks-url]: https://github.com/ari-denary/warbler/network/members
-[stars-shield]: https://img.shields.io/github/stars/ari-denary/warbler.svg?style=for-the-badge
-[stars-url]: https://github.com/ari-denary/warbler/stargazers
-[issues-shield]: https://img.shields.io/github/issues/ari-denary/warbler.svg?style=for-the-badge
-[issues-url]: https://github.com/ari-denary/warbler/issues
+[contributors-shield]: https://img.shields.io/github/contributors/ari-denary/TwitterClone.svg?style=for-the-badge
+[contributors-url]: https://github.com/ari-denary/TwitterClone/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/ari-denary/TwitterClone.svg?style=for-the-badge
+[forks-url]: https://github.com/ari-denary/TwitterClone/network/members
+[stars-shield]: https://img.shields.io/github/stars/ari-denary/TwitterClone.svg?style=for-the-badge
+[stars-url]: https://github.com/ari-denary/TwitterClone/stargazers
+[issues-shield]: https://img.shields.io/github/issues/ari-denary/TwitterClone.svg?style=for-the-badge
+[issues-url]: https://github.com/ari-denary/TwitterClone/issues
 [license-shield]: https://img.shields.io/badge/License-MIT-41acc0?style=for-the-badge&logo=MIT&logoColor=white
-[license-url]: https://github.com/ari-denary/warbler/LICENSE.txt
+[license-url]: https://github.com/ari-denary/TwitterClone/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/ari-denary/
 <!-- [product-screenshot]: images/screenshot.png -->
