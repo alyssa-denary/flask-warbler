@@ -2,7 +2,7 @@
 
 ![warbler-demo-final](https://github.com/ari-denary/warbler/assets/77554154/953316c2-c490-4993-b569-212e583d3dbb)
 
-> This is a full stack social media app where users can view messages, post messages, and  like one another's posts. Users can follow one another, and view messages from users that they follow.
+> A server-side social media app where users can view messages, post messages, and  like one another's posts. Users can follow one another, and view messages from users that they follow.
 
 <br />
 <!-- PROJECT LOG -->
