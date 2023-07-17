@@ -376,7 +376,7 @@ def like_message(msg_id):
 
     form = g.csrf_form
 
-    if not form.validate_on_submit() or not g.user:
+    if not form.validate_on_submit():
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
@@ -399,7 +399,7 @@ def unlike_message(msg_id):
 
     form = g.csrf_form
 
-    if not form.validate_on_submit() or not g.user:
+    if not form.validate_on_submit():
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
