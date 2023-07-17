@@ -23,26 +23,18 @@
         <p>{{ message.text }}</p>
       </div>
       <div class="interaction" style="z-index: 100;">
-        <form method="POST">
+        {% if message not in g.user.authored_messages %}
+        <form method="POST" action="/messages/{{ message.id }}/like">
           {{ g.csrf_form.hidden_tag() }}
-          {% if message in g.user.liked_messages %}
-            <button
-              class="btn btn-outline-danger"
-              style="border: none;"
-              formaction="/messages/{{ message.id }}/unlike"
-            >
+          <button class="btn btn-outline-danger" style="border: none;">
+            {% if message in g.user.liked_messages %}
               <i class="bi bi-heart-fill"></i>
-            </button>
-          {% elif message.user_id != g.user.id %}
-            <button
-              formaction="/messages/{{ message.id }}/like"
-              style="border: none;"
-              class="btn btn-outline-danger"
-            >
+            {% else %}
               <i class="bi bi-heart"></i>
-            </button>
-          {% endif %}
+            {% endif %}
+          </button>
         </form>
+        {% endif %}
       </div>
     </li>
 

@@ -368,16 +368,15 @@ def show_message(message_id):
     msg = Message.query.get_or_404(message_id)
     return render_template('messages/show.html', message=msg)
 
-# Kept like/unlike separate for idempotency
 # TODO: add shared logic of both to a function
 @app.post('/messages/<int:msg_id>/like')
 def like_message(msg_id):
-    """Like a message and redirect to origin page."""
+    """Toggle like/unlike message and redirect to origin page."""
 
     form = g.csrf_form
 
-    # if not form.validate_on_submit() or not g.user:
-    if not g.user:
+    # if not g.user:
+    if not form.validate_on_submit() or not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
@@ -386,7 +385,11 @@ def like_message(msg_id):
     if msg.user_id == g.user.id:
         raise Forbidden
 
-    g.user.liked_messages.append(msg)
+    if msg in g.user.liked_messages:
+        g.user.liked_messages.remove(msg)
+    else:
+        g.user.liked_messages.append(msg)
+
     db.session.commit()
 
     return redirect(request.referrer)
@@ -394,26 +397,26 @@ def like_message(msg_id):
     # Alternatively on form can add hidden input and extract value
 
 
-@app.post('/messages/<int:msg_id>/unlike')
-def unlike_message(msg_id):
-    """Unlike a message and redirect to origin page."""
+# @app.post('/messages/<int:msg_id>/unlike')
+# def unlike_message(msg_id):
+#     """Unlike a message and redirect to origin page."""
 
-    form = g.csrf_form
+#     form = g.csrf_form
 
-    # if not form.validate_on_submit() or not g.user:
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
+#     # if not g.user:
+#     if not form.validate_on_submit() or not g.user:
+#         flash("Access unauthorized.", "danger")
+#         return redirect("/")
 
-    msg = Message.query.get_or_404(msg_id)
+#     msg = Message.query.get_or_404(msg_id)
 
-    if msg.user_id == g.user.id:
-        raise Forbidden
+#     if msg.user_id == g.user.id:
+#         raise Forbidden
 
-    g.user.liked_messages.remove(msg)
-    db.session.commit()
+#     g.user.liked_messages.remove(msg)
+#     db.session.commit()
 
-    return redirect(request.referrer)
+#     return redirect(request.referrer)
 
 
 @app.post('/messages/<int:message_id>/delete')
