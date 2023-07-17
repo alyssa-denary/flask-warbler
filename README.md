@@ -1,6 +1,8 @@
 # Warbler
 
-> This is a full stack social media app where users can view messages, post messages, and  like one another's posts. Users can follow one another, and only view messages from users that they follow.
+![warbler-demo-final](https://github.com/ari-denary/warbler/assets/77554154/953316c2-c490-4993-b569-212e583d3dbb)
+
+> This is a full stack social media app where users can view messages, post messages, and  like one another's posts. Users can follow one another, and view messages from users that they follow.
 
 <br />
 <!-- PROJECT LOG -->
@@ -8,7 +10,7 @@
   <p align="center">
     <a href="https://github.com/ari-denary/warbler"><strong>Explore the docs »</strong></a>
     <br />
-    <a href="https://warbler.adenary.dev/">View Demo</a>
+    <a href="https://warbler.adenary.dev/">View Demo Site</a>
     ·
     <a href="https://github.com/ari-denary/warbler/issues">Report Bug</a>
     ·
@@ -82,15 +84,6 @@ flask run
 
 <p align="right">(<a href="#Warbler">back to top</a>)</p>
 
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-- Homepage to view all messages from followed users:
-<img src="./static/images/warbler-homepage.png"/>
-
-<p align="right">(<a href="#Warbler">back to top</a>)</p>
-
 ## Tests
 
 To run tests:
@@ -102,7 +95,8 @@ FLASK_DEBUG=False python -m unittest test_filename.py
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Add nav link to see posts from all users
+- [ ] Add nav link to see messages from all users
+- [ ] Refactor to use AJAX requests and reduce number of page reloads
 
 See the [open issues](https://github.com/ari-denary/warbler/issues) for a full list of proposed features (and known issues).
 
