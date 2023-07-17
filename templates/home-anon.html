@@ -9,6 +9,7 @@
   <div class="home-hero">
     <h1>What's Happening?</h1>
     <form method="POST" action="/demo" class="demo-form">
+      {{ g.csrf_form.hidden_tag() }}
       <button class="btn btn-success btn-lg">View Site Demo</button>
     </form>
     <br />
