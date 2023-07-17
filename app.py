@@ -378,6 +378,7 @@ def like_message(msg_id):
     # if not g.user:
     if not form.validate_on_submit() or not g.user:
         flash("Access unauthorized.", "danger")
+        print(form.errors)
         return redirect("/")
 
     msg = Message.query.get_or_404(msg_id)
