@@ -6,10 +6,13 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Forbidden
 
-from forms import (UserAddForm, LoginForm, MessageForm, CSRFProtectForm,
-                   UserEditForm)
+from forms import (
+    UserAddForm, LoginForm, MessageForm, CSRFProtectForm, UserEditForm
+)
 from models import (db, connect_db, User, Message,
                     DEFAULT_IMAGE_URL, DEFAULT_HEADER_IMAGE_URL)
+
+load_dotenv()
 
 CURR_USER_KEY = "curr_user"
 
@@ -365,13 +368,15 @@ def show_message(message_id):
     msg = Message.query.get_or_404(message_id)
     return render_template('messages/show.html', message=msg)
 
-# TODO:  # keeping them separate is idempotent
-# TODO: add shared logic to a function, keep separate routes
+# Kept like/unlike separate for idempotency
+# TODO: add shared logic of both to a function
 @app.post('/messages/<int:msg_id>/like')
 def like_message(msg_id):
     """Like a message and redirect to origin page."""
 
-    if not g.user or not g.csrf_form.validate_on_submit():
+    form = g.csrf_form
+
+    if not form.validate_on_submit() or not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
@@ -384,15 +389,17 @@ def like_message(msg_id):
     db.session.commit()
 
     return redirect(request.referrer)
-    # TODO: May not be supported by all browsers,
-    # instead on form can add hidden input and extract value
+    # TODO: request.referrer May not be supported by all browsers,
+    # Alternatively on form can add hidden input and extract value
 
 
 @app.post('/messages/<int:msg_id>/unlike')
 def unlike_message(msg_id):
     """Unlike a message and redirect to origin page."""
 
-    if not g.user or not g.csrf_form.validate_on_submit():
+    form = g.csrf_form
+
+    if not form.validate_on_submit() or not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
